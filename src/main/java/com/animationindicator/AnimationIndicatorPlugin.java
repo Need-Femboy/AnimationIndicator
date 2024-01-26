@@ -127,7 +127,7 @@ public class AnimationIndicatorPlugin extends Plugin
 	@Subscribe
 	public void onConfigChanged(ConfigChanged event)
 	{
-		if (event.getGroup() == AnimationIndicatorConfig.CONFIGNAME)
+		if (event.getGroup().equals(AnimationIndicatorConfig.CONFIGNAME))
 		{
 			splitList(config.npcList(), npcNames);
 		}
@@ -153,6 +153,7 @@ public class AnimationIndicatorPlugin extends Plugin
 	
 	private void splitList(String configStr, ArrayList<String> strList)
 	{
+		strList.clear();
 		if (!configStr.equals(""))
 		{
 			for (String str : configStr.split(","))
