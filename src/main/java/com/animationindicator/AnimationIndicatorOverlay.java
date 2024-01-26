@@ -49,21 +49,34 @@ public class AnimationIndicatorOverlay extends Overlay
 			Color fill = config.fillColour();
 			int lineAlpha = config.outlineColour().getAlpha();
 			int fillAlpha = config.fillColour().getAlpha();
-			Polygon tilePoly;
-			
-			LocalPoint lp = npc.getLocalLocation();
-			if (lp != null)
+			Shape npcShape = null;
+			switch (config.hightlightType())
 			{
-				tilePoly = Perspective.getCanvasTileAreaPoly(client, lp, size);
-				if (tilePoly != null)
-				{
-					graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-					graphics2D.setColor(new Color(line.getRed(), line.getGreen(), line.getBlue(), lineAlpha));
-					graphics2D.setStroke(new BasicStroke(2f));
-					graphics2D.draw(tilePoly);
-					graphics2D.setColor(new Color(fill.getRed(), fill.getGreen(), fill.getBlue(), fillAlpha));
-					graphics2D.fill(tilePoly);
-				}
+				default:
+				case TILE:
+				case TRUE_TILE:
+					LocalPoint lp = config.hightlightType() == HighlightType.TILE ? npc.getLocalLocation() : LocalPoint.fromWorld(client, npc.getWorldLocation());
+					if (lp != null)
+					{
+						if (config.hightlightType() == HighlightType.TRUE_TILE)
+						{
+							lp = new LocalPoint(lp.getX() + size * 128 / 2 - 64, lp.getY() + size * 128 / 2 - 64);
+						}
+						npcShape = Perspective.getCanvasTileAreaPoly(client, lp, size);
+					}
+					break;
+				case HULL:
+					npcShape = npc.getConvexHull();
+					break;
+			}
+			if (npcShape != null)
+			{
+				graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				graphics2D.setColor(new Color(line.getRed(), line.getGreen(), line.getBlue(), lineAlpha));
+				graphics2D.setStroke(new BasicStroke(2f));
+				graphics2D.draw(npcShape);
+				graphics2D.setColor(new Color(fill.getRed(), fill.getGreen(), fill.getBlue(), fillAlpha));
+				graphics2D.fill(npcShape);
 			}
 		}
 		return null;

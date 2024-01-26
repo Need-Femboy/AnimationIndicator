@@ -13,11 +13,12 @@ import static com.animationindicator.AnimationIndicatorConfig.CONFIGNAME;
 public interface AnimationIndicatorConfig extends Config
 {
 	String CONFIGNAME = "AnimationIndicator";
+	
 	@ConfigItem(
-		keyName = "npcList",
-		name = "NPC names",
-		description = "",
-		position = 0
+			keyName = "npcList",
+			name = "NPC names",
+			description = "",
+			position = 0
 	)
 	default String npcList()
 	{
@@ -38,7 +39,11 @@ public interface AnimationIndicatorConfig extends Config
 			description = "",
 			position = 1
 	)
-	default Color fillColour() { return new Color(0, 255, 0, 100);}
+	default Color fillColour()
+	{
+		return new Color(0, 255, 0, 100);
+	}
+	
 	@Alpha
 	@ConfigItem(
 			keyName = "outlineColour",
@@ -46,6 +51,20 @@ public interface AnimationIndicatorConfig extends Config
 			description = "",
 			position = 2
 	)
-	default Color outlineColour() { return new Color(0, 86, 0, 100);}
+	default Color outlineColour()
+	{
+		return new Color(0, 86, 0, 100);
+	}
+	
+	@ConfigItem(
+			keyName = "highlightType",
+			name = "Hightlight type",
+			description = "",
+			position = 3
+	)
+	default HighlightType hightlightType()
+	{
+		return HighlightType.TILE;
+	}
 	
 }
