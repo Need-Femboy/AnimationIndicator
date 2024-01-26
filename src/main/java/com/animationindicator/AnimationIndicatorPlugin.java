@@ -50,7 +50,7 @@ public class AnimationIndicatorPlugin extends Plugin
 	
 	public ArrayList<Map.Entry<Integer, NPC>> animStorage = new ArrayList<>();
 	
-	private Set<Integer> defensiveAnimation = ImmutableSet.of(AnimationID.IDLE);
+	private Set<Integer> ignoredAnims = ImmutableSet.of(AnimationID.IDLE);
 	
 	protected void startUp()
 	{
@@ -73,12 +73,19 @@ public class AnimationIndicatorPlugin extends Plugin
 	@Subscribe
 	public void onAnimationChanged(AnimationChanged event)
 	{
-		if (event.getActor().getAnimation() == AnimationID.IDLE || !(event.getActor() instanceof NPC))
+		int animId = event.getActor().getAnimation();
+		
+		if (ignoredAnims.contains(animId) || !(event.getActor() instanceof NPC))
 		{
 			return;
 		}
 		
-		animStorage.add(new ImmutablePair<>(client.getTickCount(), ((NPC) event.getActor())));
+		NPC npc = (NPC) event.getActor();
+		
+		if (checkSpecificNameList(npc))
+		{
+			animStorage.add(new ImmutablePair<>(client.getTickCount(), npc));
+		}
 	}
 	
 	@Subscribe
