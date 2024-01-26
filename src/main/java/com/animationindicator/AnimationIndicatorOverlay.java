@@ -45,23 +45,16 @@ public class AnimationIndicatorOverlay extends Overlay
 			}
 			
 			int size = npcComposition.getSize();
-			Color line;
-			Color fill;
-			int lineAlpha;
-			int fillAlpha;
-			LocalPoint lp;
+			Color line = config.outlineColour();
+			Color fill = config.fillColour();
+			int lineAlpha = config.outlineColour().getAlpha();
+			int fillAlpha = config.fillColour().getAlpha();
 			Polygon tilePoly;
 			
-			line = config.outlineColour();
-			fill = config.fillColour();
-			lineAlpha = config.outlineColour().getAlpha();
-			fillAlpha = config.fillColour().getAlpha();
-			
-			lp = npc.getLocalLocation();
+			LocalPoint lp = npc.getLocalLocation();
 			if (lp != null)
 			{
 				tilePoly = Perspective.getCanvasTileAreaPoly(client, lp, size);
-				
 				if (tilePoly != null)
 				{
 					graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

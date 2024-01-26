@@ -4,9 +4,9 @@ plugins {
 
 repositories {
 	mavenLocal()
-	//maven {
-	//	url = 'https://repo.runelite.net'
-	//}
+	maven {
+		url = 'https://repo.runelite.net'
+	}
 	mavenCentral()
 }
 
@@ -24,7 +24,7 @@ dependencies {
 }
 
 group = 'com.animationindicator'
-version = '1.0-SNAPSHOT'
+version = '1.0'
 sourceCompatibility = '1.8'
 
 tasks.withType(JavaCompile) {
